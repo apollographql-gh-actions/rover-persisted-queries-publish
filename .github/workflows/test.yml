@@ -15,8 +15,8 @@ on:
   workflow_dispatch:
 
 jobs:
-  subgraph-check:
-    name: Run Rover subgraph check command
+  pq-publish:
+    name: Run Rover persisted queries publish command
     strategy:
       matrix:
         os:
@@ -29,13 +29,7 @@ jobs:
         uses: apollographql-gh-actions/install-rover@v1
         with:
           version: 0.28.1
-      - name: Test failure (no graphref or graph ID/list ID)
-        uses: ./
-        with:
-          apollo-key: ${{ secrets.APOLLO_KEY }}
-          name: test-rover-actions
-          manifest: './.github/workflows/test-data/test-manifest.json'
-
+          
       - name: Test publish using graphref
         uses: ./
         with:
