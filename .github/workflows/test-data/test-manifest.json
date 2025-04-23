@@ -1,0 +1,12 @@
+{
+  "format": "apollo-persisted-query-manifest",
+  "version": 1,
+  "operations": [
+    {
+      "id": "f376fa77940fca09907728d60f977226b75e3382862f306bd837c8c39c8e6127",
+      "name": "GitHubActions_Test_HelloWorld",
+      "type": "query",
+      "body": "query GitHubActions_Test_HelloWorld {\n  __typename\n}"
+    }
+  ]
+}

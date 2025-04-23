@@ -1,0 +1,54 @@
+name: Test rover actions
+on:
+  push:
+    branches:
+      - '*'
+    paths-ignore:
+      - .github/workflows/release.yml
+      - README.md
+  pull_request:
+    branches:
+      - main
+    paths-ignore:
+      - .github/workflows/release.yml
+      - README.md
+  workflow_dispatch:
+
+jobs:
+  subgraph-check:
+    name: Run Rover subgraph check command
+    strategy:
+      matrix:
+        os:
+          - ubuntu-latest
+          - windows-latest
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v3
+      - name: Install rover
+        uses: apollographql-gh-actions/install-rover@v1
+        with:
+          version: 0.28.1
+      - name: Test failure (no graphref or graph ID/list ID)
+        uses: ./
+        with:
+          apollo-key: ${{ secrets.APOLLO_KEY }}
+          name: test-rover-actions
+          manifest: './.github/workflows/test-data/test-manifest.json'
+
+      - name: Test publish using graphref
+        uses: ./
+        with:
+          apollo-key: ${{ secrets.APOLLO_KEY }}
+          graph-ref: ${{ vars.APOLLO_GRAPH_REF }}
+          manifest: './.github/workflows/test-data/test-manifest.json'
+          for-client-name: gha-tests
+
+      - name: Test publish using graph ID and list ID
+        uses: ./
+        with:
+          apollo-key: ${{ secrets.APOLLO_KEY }}
+          graph-id: ${{ vars.APOLLO_GRAPH_ID }}
+          list-id: ${{ vars.APOLLO_PQ_LIST_ID }}
+          manifest: './.github/workflows/test-data/test-manifest.json'
+          for-client-name: gha-tests
