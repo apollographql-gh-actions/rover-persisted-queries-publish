@@ -52,8 +52,8 @@ runs:
         fi
 
         ARGS=()
-        if [[ -n "${{ inputs.graph-ref }}"]] ; then
-          ARGS+=(--graph-ref ${{ inputs.graph-ref }})
+        if [[ -n "${{ inputs.graph-ref }}" ]] ; then
+          ARGS+=(${{ inputs.graph-ref }})
         else
           ARGS+=(--graph-id ${{ inputs.graph-id }})
           ARGS+=(--list-id ${{ inputs.list-id }})
